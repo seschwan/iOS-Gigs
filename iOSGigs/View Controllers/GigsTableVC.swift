@@ -9,22 +9,72 @@
 import UIKit
 
 class GigsTableVC: UIViewController {
+    
+    let gigController = GigController()
+    
+    @IBOutlet weak var gigTableView: UITableView!
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        gigTableView.dataSource = self
+        gigTableView.delegate = self
+        
+        if gigController.bearer == nil {
+            performSegue(withIdentifier: "ToSignUp", sender: self)
+        } else {
+            gigController.getAllGigs { (error) in
+                if let error = error {
+                    NSLog("Error getting gigs: \(error)")
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.gigTableView.reloadData()
+                }
+            }
+        }
+    }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ToSignUp" {
+            guard let loginVC = segue.destination as? LoginVC else { return }
+            
+        
+        } else if segue.identifier == "NewGig" {
+            guard let gigDetailVC = segue.destination as? GigDetailVC else { return }
+        
+        } else if segue.identifier == "ViewGig" {
+            guard let gigTableVC = segue.destination as? GigsTableVC else { return }
+            if let indexPath = gigTableView.indexPathForSelectedRow {
+                gigTableVC.
+            }
+        }
+    }
 
-        // Do any additional setup after loading the view.
+}
+
+extension GigsTableVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return gigController.gigArray.count
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        
+        let gig = gigController.gigArray[indexPath.row]
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .none
+        
+        cell.textLabel?.text = gig.title
+        cell.detailTextLabel?.text = "Due: \(dateFormatter.string(from: gig.dueDate))"
+        
+        return cell
+    
+    
     }
-    */
-
+    
+    
+    
 }

@@ -70,7 +70,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="YQF-bk-dPK" kind="presentation" id="mY2-JY-yCv"/>
+                        <outlet property="gigTableView" destination="iAp-dC-mVR" id="Ab2-45-pDE"/>
+                        <segue destination="YQF-bk-dPK" kind="presentation" identifier="ToSignUp" id="mY2-JY-yCv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HPE-vs-cmj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -275,6 +276,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="UMS-ev-WWq"/>
+        <segue reference="v3Q-Je-4yR"/>
     </inferredMetricsTieBreakers>
 </document>

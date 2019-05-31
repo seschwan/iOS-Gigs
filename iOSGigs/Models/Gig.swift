@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct Gig {
+struct Gig: Codable {
     let title: String
-    let dueDate: ISO8601DateFormatter
+    let dueDate: Date
     let description: String
 }
